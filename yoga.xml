@@ -31,5 +31,11 @@
 
 	<dependencies>
 	       	<repository id="com.wighawag.report.Report" version="0.0.1" />
+        <sourcezip url="https://github.com/jdonaldson/promhx/zipball/master" >
+            <sources>
+                <source path="\^[^/]+/src$\"/>
+            </sources>
+        </sourcezip>
+        <haxelib name="tink_macros" version="1.0.2"/>
 	</dependencies>
 </project>

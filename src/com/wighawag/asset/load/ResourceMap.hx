@@ -1,7 +1,7 @@
 package com.wighawag.asset.load;
+import com.wighawag.asset.load.AssetManager;
 import com.wighawag.asset.load.Resource;
 import haxe.xml.Fast;
-import com.wighawag.asset.load.AssetManager;
 class ResourceMap {
 
     private var resources : Hash<Resource>;

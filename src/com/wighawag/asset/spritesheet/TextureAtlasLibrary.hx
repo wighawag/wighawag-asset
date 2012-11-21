@@ -1,10 +1,10 @@
 package com.wighawag.asset.spritesheet;
 
+import com.wighawag.asset.load.AssetManager;
 import com.wighawag.asset.load.Batch;
 import com.wighawag.asset.load.Asset;
 import com.wighawag.asset.load.TextAsset;
 import com.wighawag.asset.load.BitmapAsset;
-import com.wighawag.asset.load.AssetManager;
 import com.wighawag.report.Report;
 import promhx.Promise;
 class TextureAtlasLibrary {
