@@ -50,12 +50,12 @@ class NMEEmbededAssetManager extends NMERemoteAssetManager, implements AssetMana
         super(resourceMap);
     }
 
-    override private function loadBitmap(promise : Promise<Asset>, resource : Resource) : Void{
+    override private function loadText(promise : Promise<Asset>, resource : Resource) : Void{
         var text = nme.Assets.getText(resource.path);
         promise.resolve(new TextAsset(resource.id, text));
     }
 
-    override private function loadText(promise : Promise<Asset>, resource : Resource) : Void{
+    override private function loadBitmap(promise : Promise<Asset>, resource : Resource) : Void{
         var bitmapData = nme.Assets.getBitmapData(resource.path);
         promise.resolve(new BitmapAsset(resource.id, bitmapData));
     }
