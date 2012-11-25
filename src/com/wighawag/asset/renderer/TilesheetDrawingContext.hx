@@ -12,6 +12,7 @@ class TilesheetDrawingContext {
     private var graphics : Graphics;
 
     private var tilesheetsToDraw : ObjectHash<Tilesheet, Array<Float>>;
+    private var orderedTilesheets : Array<Tilesheet>;
 
     public function new(graphics : Graphics) {
         this.graphics = graphics;
@@ -32,6 +33,7 @@ class TilesheetDrawingContext {
         }else{
             values = new Array();
             tilesheetsToDraw.set(tilesheet, values);
+            orderedTilesheets.push(tilesheet);
         }
         values.push(x - subTexture.frameX);
         values.push(y - subTexture.frameY);
@@ -40,11 +42,12 @@ class TilesheetDrawingContext {
 
     public function willRender() : Void{
         tilesheetsToDraw = new ObjectHash();
+        orderedTilesheets = new Array();
     }
 
     public function didRender() : Void{
         graphics.clear();
-        for (toDraw in tilesheetsToDraw){
+        for (toDraw in orderedTilesheets){
             toDraw.drawTiles(graphics,tilesheetsToDraw.get(toDraw)); // TODO support flags
         }
     }

@@ -15,6 +15,11 @@ class SpriteDrawingContext
 
     private var sprites : AssetProvider<Sprite>;
 
+    // TODO replace with a full stack based state
+    private var currentTranslationX : Int;
+    private var currentTranslationY : Int;
+    //////////////////////////////////////////////
+
     #if cpp
     public function new(graphics : nme.display.Graphics) {
         super(graphics);
@@ -38,7 +43,7 @@ class SpriteDrawingContext
         var frame = animation.get(timeElapsed);
         var texture : SubTexture = frame.texture;
 
-        drawTexture(texture, x - frame.x, y - frame.y);
+        drawTexture(texture, currentTranslationX + x - frame.x, currentTranslationY + y - frame.y);
     }
 
     public function fillSprite(name : String, animation : String, timeElapsed : Float, x : Int, y : Int, width : Int, height : Int) : Void{
@@ -57,10 +62,23 @@ class SpriteDrawingContext
         while(totalHeight < maxHeight){
             totalWidth = 0;
             while(totalWidth < maxWidth){
-                drawTexture(texture, x + totalWidth - frame.x, y + totalHeight - frame.y);
+                drawTexture(texture,currentTranslationX+ x + totalWidth - frame.x,currentTranslationY + y + totalHeight - frame.y);
                 totalWidth += texture.width;
             }
             totalHeight += texture.height   ;
         }
     }
+
+    public function translate(x : Int, y : Int) : Void{
+        currentTranslationX +=x;
+        currentTranslationY +=y;
+    }
+
+    override public function didRender() : Void{
+        super.didRender();
+        currentTranslationX = 0;
+        currentTranslationY = 0;
+    }
+
+
 }

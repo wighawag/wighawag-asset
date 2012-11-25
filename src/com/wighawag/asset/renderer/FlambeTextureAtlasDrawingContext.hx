@@ -27,4 +27,12 @@ class FlambeTextureAtlasDrawingContext {
         var flashTexture = texturesMap.get(subTexture.bitmapData);
         flambeContext.drawSubImage(flashTexture, x - subTexture.frameX, y - subTexture.frameY, subTexture.x, subTexture.y, subTexture.width, subTexture.height);
     }
+
+    public function willRender() : Void{
+
+    }
+
+    public function didRender() : Void{
+
+    }
 }

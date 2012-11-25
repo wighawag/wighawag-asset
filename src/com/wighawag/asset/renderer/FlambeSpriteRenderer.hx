@@ -58,10 +58,12 @@ class FlambeSpriteRenderer  implements Renderer<SpriteDrawingContext>{
     public function lock():SpriteDrawingContext {
         var flambeContext = flambeRenderer.lock();
         context.setFlambeContext(flambeContext);
+        context.willRender();
         return context;
     }
 
     public function unlock():Void {
+        context.didRender();
         flambeRenderer.unlock();
     }
 
