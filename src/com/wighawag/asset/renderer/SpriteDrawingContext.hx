@@ -11,6 +11,8 @@ class SpriteDrawingContext
         extends FlambeTextureAtlasDrawingContext{
     #elseif cpp
         extends TilesheetDrawingContext{
+    #else
+        extends DummyTextureAtlasDrawingContext{
     #end
 
     private var sprites : AssetProvider<Sprite>;

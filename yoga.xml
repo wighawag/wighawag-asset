@@ -37,5 +37,6 @@
             </sources>
         </sourcezip>
         <haxelib name="tink_macros" version="1.0.2"/>
+        <haxelib name="nme" version="3.4.0"/>
 	</dependencies>
 </project>
