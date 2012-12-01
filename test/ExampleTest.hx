@@ -1,5 +1,6 @@
 package;
 
+import nme.display.Sprite;
 import com.wighawag.asset.load.AssetManager;
 import com.wighawag.asset.spritesheet.TextureAtlasLibrary;
 import com.wighawag.asset.spritesheet.SpriteLibrary;
@@ -19,6 +20,7 @@ class ExampleTest
 	public function new() 
 	{
 		new SpriteLibrary("", new TextureAtlasLibrary(new DummyAssetManager()));
+        //new TilesheetSpriteRenderer(new Sprite().graphics);
 	}
 	
 	@BeforeClass

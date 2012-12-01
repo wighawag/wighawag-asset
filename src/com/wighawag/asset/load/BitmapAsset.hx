@@ -3,9 +3,9 @@ import com.wighawag.asset.load.AssetManager;
 import nme.display.BitmapData;
 class BitmapAsset implements Asset{
 
-    public var id : AssetId;
+    public var id(default,null) : AssetId;
 
-    public var bitmapData : BitmapData;
+    public var bitmapData(default,null) : BitmapData;
 
     public function new(id : AssetId, bitmapData : BitmapData) {
         this.id = id;

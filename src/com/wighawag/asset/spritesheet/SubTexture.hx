@@ -1,10 +1,11 @@
 package com.wighawag.asset.spritesheet;
+import com.wighawag.asset.load.BitmapAsset;
 import nme.display.BitmapData;
 class SubTexture {
 
     public var id : String;
 
-    public var bitmapData : BitmapData;
+    public var bitmapAsset : BitmapAsset;
     public var x : Int;
     public var y : Int;
     public var width : Int;
@@ -15,10 +16,10 @@ class SubTexture {
     public var frameWidth : Int;
     public var frameHeight : Int;
 
-    public function new(id : String, bitmapData : BitmapData, x : Int, y : Int, width : Int, height : Int, frameX : Int, frameY : Int, frameWidth : Int, frameHeight : Int) {
+    public function new(id : String, bitmapAsset : BitmapAsset, x : Int, y : Int, width : Int, height : Int, frameX : Int, frameY : Int, frameWidth : Int, frameHeight : Int) {
 
         this.id = id;
-        this.bitmapData = bitmapData;
+        this.bitmapAsset = bitmapAsset;
 
         this.x = x;
         this.y = y;

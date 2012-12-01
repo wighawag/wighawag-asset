@@ -1,14 +1,13 @@
 package com.wighawag.asset.spritesheet;
-import nme.display.BitmapData;
-import nme.display.BitmapData;
+import com.wighawag.asset.load.BitmapAsset;
 class SparrowTextureAtlasParser {
 
     private var xml : String;
-    private var bitmapData : BitmapData;
+    private var bitmapAsset : BitmapAsset;
 
-    public function new(bitmapData : BitmapData, xml : String) {
+    public function new(bitmapAsset : BitmapAsset, xml : String) {
         this.xml = xml;
-        this.bitmapData = bitmapData;
+        this.bitmapAsset = bitmapAsset;
     }
 
     public function parse() : TextureAtlas{
@@ -38,10 +37,10 @@ class SparrowTextureAtlasParser {
                 frameHeight = Std.parseInt(texture.att.frameHeight);
             }
 
-            textures.set(name, new SubTexture(name, bitmapData,x,y,width,height, frameX, frameY, frameWidth, frameHeight));
+            textures.set(name, new SubTexture(name, bitmapAsset,x,y,width,height, frameX, frameY, frameWidth, frameHeight));
         }
 
 
-        return new TextureAtlas(x.att.id, bitmapData, textures);
+        return new TextureAtlas(x.att.id, bitmapAsset, textures);
     }
 }

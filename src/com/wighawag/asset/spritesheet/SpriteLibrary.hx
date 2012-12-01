@@ -76,7 +76,7 @@ class SpriteLibrary {
                         animations.set(animationDef.att.id, new Animation(animationDef.att.id, frames, Std.parseInt(animationDef.att.defaultDuration), loopStartFrame));
                     }
 
-                    spritePromise.resolve(new Sprite(id, textureAtlas, subTexture.bitmapData, animations));
+                    spritePromise.resolve(new Sprite(id, textureAtlas, subTexture.bitmapAsset, animations));
                 }
                 textureAtlasSpriteMap.remove(textureAtlas.id);
             });

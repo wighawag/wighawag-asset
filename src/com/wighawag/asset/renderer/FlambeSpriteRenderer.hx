@@ -2,20 +2,19 @@ package com.wighawag.asset.renderer;
 
 import com.wighawag.view.flambe.FlambeStage3DRenderer;
 import nme.display.BitmapData;
-import com.fermmtools.utils.ObjectHash;
 import com.wighawag.asset.spritesheet.TextureAtlas;
 import com.wighawag.asset.load.Batch;
 import com.wighawag.asset.spritesheet.Sprite;
 import com.wighawag.view.Renderer;
 import flambe.display.DrawingContext;
 import flambe.platform.flash.FlashTexture;
-class FlambeSpriteRenderer  implements Renderer<SpriteDrawingContext>{
+class FlambeSpriteRenderer  implements Renderer<NMEDrawingContext>{
 
-    private var context : SpriteDrawingContext;
+    private var context : FlambeTextureAtlasDrawingContext;
     private var flambeRenderer : Renderer<DrawingContext>;
 
     public function new(renderer : Renderer<DrawingContext>) {
-        context = new SpriteDrawingContext();
+        context = new FlambeTextureAtlasDrawingContext();
         flambeRenderer = renderer;
     }
 
@@ -35,13 +34,13 @@ class FlambeSpriteRenderer  implements Renderer<SpriteDrawingContext>{
             }
         }
 
-        var texturesMap : ObjectHash<BitmapData, FlashTexture> = new ObjectHash();
+        var texturesMap : Hash<FlashTexture> = new Hash();
         for (texture in textureAtlases){
-            var bitmapData = texture.bitmapData;
-            if (!texturesMap.exists(bitmapData)){
-                var flashTexture = new FlashTexture(bitmapData);
+            var bitmapAsset = texture.bitmapAsset;
+            if (!texturesMap.exists(bitmapAsset.id)){
+                var flashTexture = new FlashTexture(bitmapAsset.bitmapData);
 
-                texturesMap.set(bitmapData, flashTexture);
+                texturesMap.set(bitmapAsset.id, flashTexture);
                 if (Std.is(flambeRenderer, FlambeStage3DRenderer)){
                     var stage3DRenderer : FlambeStage3DRenderer = cast(flambeRenderer);
                     stage3DRenderer.uploadTexture(flashTexture);
@@ -50,20 +49,20 @@ class FlambeSpriteRenderer  implements Renderer<SpriteDrawingContext>{
         }
 
         context.setUploadedTextures(texturesMap);
-        context.setUploadedSprites(sprites);
-
     }
 
+    private var flambeContext : DrawingContext;
     // TODO implement lock mechanism
-    public function lock():SpriteDrawingContext {
-        var flambeContext = flambeRenderer.lock();
+    public function lock():NMEDrawingContext {
+        flambeContext = flambeRenderer.lock();
         context.setFlambeContext(flambeContext);
-        context.willRender();
+        flambeContext.save();
         return context;
     }
 
     public function unlock():Void {
-        context.didRender();
+        flambeContext.restore();
+        flambeContext = null;
         flambeRenderer.unlock();
     }
 

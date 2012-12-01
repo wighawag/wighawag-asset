@@ -31,7 +31,7 @@ class TextureAtlasLibrary {
                 var bitmapAsset : BitmapAsset = cast(assets.get(id+".texture"));
                 var textAsset : TextAsset = cast(assets.get(id+".atlas"));
                 var subTextures = new Hash<SubTexture>();
-                var parser = new SparrowTextureAtlasParser(bitmapAsset.bitmapData, textAsset.text);
+                var parser = new SparrowTextureAtlasParser(bitmapAsset, textAsset.text);
                 var textureAtlas = parser.parse();
                 promise.resolve(textureAtlas);
 

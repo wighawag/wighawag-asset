@@ -10,12 +10,12 @@ import com.wighawag.asset.spritesheet.SubTexture;
 import neash.display.Tilesheet;
 import com.fermmtools.utils.ObjectHash;
 import com.wighawag.view.Renderer;
-class TilesheetSpriteRenderer implements Renderer<SpriteDrawingContext>{
+class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext>{
 
-    private var context : SpriteDrawingContext;
+    private var context : TilesheetDrawingContext;
 
     public function new(graphics : Graphics) {
-        context = new SpriteDrawingContext(graphics);
+        context = new TilesheetDrawingContext(graphics);
     }
 
     public function uploadSprites(sprites : Batch<Sprite>): Void{
@@ -34,25 +34,32 @@ class TilesheetSpriteRenderer implements Renderer<SpriteDrawingContext>{
             }
         }
 
-        var texturesMap : ObjectHash<BitmapData, Tilesheet> = new ObjectHash();
-        var texturesIndexMap : ObjectHash<BitmapData, Int> = new ObjectHash();
-        var tileIndexMap : ObjectHash<SubTexture, Int> = new ObjectHash();
+        var texturesMap : Hash<Tilesheet> = new Hash();
+        var numTiles : Hash<Int> = new Hash();
+        var tileIndexMap : Hash<Hash<Int>> = new Hash();
         for (texture in textureAtlases){
-            var bitmapData = texture.bitmapData;
+            var bitmapAsset = texture.bitmapAsset;
             var tilesheet : Tilesheet;
-            if (!texturesMap.exists(bitmapData)){
-                texturesIndexMap.set(bitmapData,0);
-                tilesheet = new Tilesheet(bitmapData);
-                texturesMap.set(bitmapData, tilesheet);
+            var tiles : Hash<Int>;
+            if (!texturesMap.exists(bitmapAsset.id)){
+                numTiles.set(bitmapAsset.id,0);
+                tilesheet = new Tilesheet(bitmapAsset.bitmapData);
+                texturesMap.set(bitmapAsset.id, tilesheet);
+                tiles = new Hash();
+                tileIndexMap.set(bitmapAsset.id, tiles);
             }else{
-                tilesheet = texturesMap.get(bitmapData);
+                tilesheet = texturesMap.get(bitmapAsset.id);
+                tiles = tileIndexMap.get(bitmapAsset.id);
             }
 
             for (subTexture in texture.textures){
-                if (!tileIndexMap.exists(subTexture)){
-                    var currentIndex = texturesIndexMap.get(bitmapData);
-                    tileIndexMap.set(subTexture, currentIndex);
-                    texturesIndexMap.set(bitmapData, currentIndex + 1);
+
+                var subTextureId = DrawingContextUtils.squareId(subTexture.x, subTexture.y, subTexture.width, subTexture.height);
+                if (!tiles.exists(subTextureId)){
+                    var currentIndex = numTiles.get(bitmapAsset.id);
+                    Report.anInfo("TilesheetSpriteRenderer", "setting " + subTextureId + " on " + bitmapAsset.id + " " + currentIndex);
+                    tiles.set(subTextureId, currentIndex);
+                    numTiles.set(bitmapAsset.id, currentIndex + 1);
                     tilesheet.addTileRect(new Rectangle(subTexture.x, subTexture.y, subTexture.width, subTexture.height), new Point(0,0));
                 }
             }
@@ -61,17 +68,15 @@ class TilesheetSpriteRenderer implements Renderer<SpriteDrawingContext>{
         }
 
         context.setUploadedTextures(texturesMap, tileIndexMap);
-        context.setUploadedSprites(sprites);
-
     }
 
     // TODO implement lock mechanism
-    public function lock():SpriteDrawingContext {
-        context.willRender();
+    public function lock():NMEDrawingContext {
+        context.prepare();
         return context;
     }
 
     public function unlock():Void {
-        context.didRender();
+        context.render();
     }
 }
