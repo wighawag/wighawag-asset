@@ -92,7 +92,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     public function render()  : Void {
         graphics.clear();
         for (toDraw in orderedTilesheets){
-            toDraw.drawTiles(graphics,tilesheetsToDraw.get(toDraw),false, Graphics.TILE_TRANS_2x2); // TODO support the other flags
+            toDraw.drawTiles(graphics,tilesheetsToDraw.get(toDraw),true, Graphics.TILE_TRANS_2x2); // TODO support the other flags
         }
     }
 
