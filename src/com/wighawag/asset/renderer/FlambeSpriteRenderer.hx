@@ -18,21 +18,7 @@ class FlambeSpriteRenderer  implements Renderer<NMEDrawingContext>{
         flambeRenderer = renderer;
     }
 
-    public function uploadSprites(sprites : Batch<Sprite>): Void{
-        var textureAtlases : Array<TextureAtlas> = new Array();
-        var allSprites = sprites.all();
-        for (sprite in allSprites){
-            var found = false;
-            for (textureAtlas in textureAtlases){
-                if (textureAtlas == sprite.textureAtlas){
-                    found = true;
-                    break;
-                }
-            }
-            if (!found){
-                textureAtlases.push(sprite.textureAtlas);
-            }
-        }
+    public function uploadTextureAtlases(textureAtlases :Array<TextureAtlas>): Void{
 
         var texturesMap : Hash<FlashTexture> = new Hash();
         for (texture in textureAtlases){

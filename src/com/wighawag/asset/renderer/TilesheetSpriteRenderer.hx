@@ -18,22 +18,7 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext>{
         context = new TilesheetDrawingContext(graphics);
     }
 
-    public function uploadSprites(sprites : Batch<Sprite>): Void{
-        var textureAtlases : Array<TextureAtlas> = new Array();
-        var allSprites = sprites.all();
-        for (sprite in allSprites){
-            var found = false;
-            for (textureAtlas in textureAtlases){
-                if (textureAtlas == sprite.textureAtlas){
-                    found = true;
-                    break;
-                }
-            }
-            if (!found){
-                textureAtlases.push(sprite.textureAtlas);
-            }
-        }
-
+    public function uploadTextureAtlases(textureAtlases : Array<TextureAtlas>): Void{
         var texturesMap : Hash<Tilesheet> = new Hash();
         var numTiles : Hash<Int> = new Hash();
         var tileIndexMap : Hash<Hash<Int>> = new Hash();
