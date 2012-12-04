@@ -36,7 +36,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     }
 
     public function drawTexture(bitmapAsset:BitmapAsset, srcX:Int, srcY:Int, srcWidth:Int, srcHeight:Int, x:Int, y:Int):Void {
-        drawScaledTexture(bitmapAsset,srcX, srcY, srcWidth, srcHeight, x, y, srcWidth, srcHeight);
+        drawScaledTexture(bitmapAsset,srcX, srcY, srcWidth, srcHeight, x, y, 1, 1);
     }
 
 

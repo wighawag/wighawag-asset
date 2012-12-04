@@ -2,7 +2,7 @@ package com.wighawag.asset.spritesheet;
 
 import com.wighawag.asset.renderer.NMEDrawingContext;
 enum SpriteDraw {
-    KeepScale;
+    NoScale;
     FillAll;
     FillVertically;
     FillHorizontally;
@@ -57,7 +57,7 @@ class SpriteUtils {
                     }
                     totalHeight += texture.height   ;
                 }
-            case SpriteDraw.KeepScale, SpriteDraw.Scale:
+            case SpriteDraw.NoScale, SpriteDraw.Scale:
 
                 var scaleX = 1.0;
                 var scaleY = 1.0;
