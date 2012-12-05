@@ -9,8 +9,7 @@ import nme.geom.Rectangle;
 import com.wighawag.asset.spritesheet.SubTexture;
 import neash.display.Tilesheet;
 import com.fermmtools.utils.ObjectHash;
-import com.wighawag.view.Renderer;
-class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext>{
+class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext, TextureAtlas>{
 
     private var context : TilesheetDrawingContext;
 
@@ -18,11 +17,11 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext>{
         context = new TilesheetDrawingContext(graphics);
     }
 
-    public function uploadTextureAtlases(textureAtlases : Array<TextureAtlas>): Void{
+    public function uploadTextures(textures : Array<TextureAtlas>): Void{
         var texturesMap : Hash<Tilesheet> = new Hash();
         var numTiles : Hash<Int> = new Hash();
         var tileIndexMap : Hash<Hash<Int>> = new Hash();
-        for (texture in textureAtlases){
+        for (texture in textures){
             var bitmapAsset = texture.bitmapAsset;
             var tilesheet : Tilesheet;
             var tiles : Hash<Int>;
@@ -53,6 +52,10 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext>{
         }
 
         context.setUploadedTextures(texturesMap, tileIndexMap);
+    }
+
+    public function unloadTextures(textures : Array<TextureAtlas>) : Void{
+        //TODO
     }
 
     // TODO implement lock mechanism

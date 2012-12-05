@@ -20,7 +20,9 @@ class ExampleTest
 	public function new() 
 	{
 		new SpriteLibrary("", new TextureAtlasLibrary(new DummyAssetManager()));
-        //new TilesheetSpriteRenderer(new Sprite().graphics);
+        #if cpp
+            new com.wighawag.asset.renderer.TilesheetSpriteRenderer(new Sprite().graphics);
+        #end
 	}
 	
 	@BeforeClass
