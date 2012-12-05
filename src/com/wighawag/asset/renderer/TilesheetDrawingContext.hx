@@ -96,9 +96,11 @@ class TilesheetDrawingContext implements NMEDrawingContext{
         }
     }
 
+    // TODO save
     public function save():Void {
     }
 
+    // TODO restore
     public function restore():Void {
     }
 

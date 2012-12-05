@@ -1,13 +1,6 @@
 package com.wighawag.asset.spritesheet;
 
 import com.wighawag.asset.renderer.NMEDrawingContext;
-enum SpriteDraw {
-    NoScale;
-    FillAll;
-    FillVertically;
-    FillHorizontally;
-    Scale;
-}
 
 class SpriteUtils {
     inline static public function getTextureAtlases(sprites : Array<Sprite>) : Array<TextureAtlas>{
@@ -29,54 +22,78 @@ class SpriteUtils {
 
 
 
-    inline static public function draw(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, width : Int, height : Int, drawMode : SpriteDraw) : Void{
+    inline static public function draw(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int) : Void{
+        var animation = sprite.get(animationName);
+        var frame = animation.get(elapsedTime);
+        var texture = frame.texture;
+        context.drawScaledTexture(
+            texture.bitmapAsset,
+            texture.x,
+            texture.y,
+            texture.width,
+            texture.height,
+            Std.int(x - (frame.x + texture.frameX)),
+            Std.int(y - (frame.y + texture.frameY)),
+            1.0,
+            1.0
+        );
+    }
+
+    inline static public function drawScaled(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, width : Int, height : Int) : Void{
         var animation = sprite.get(animationName);
         var frame = animation.get(elapsedTime);
         var texture = frame.texture;
 
-        switch(drawMode){
-            case SpriteDraw.FillAll, SpriteDraw.FillVertically, SpriteDraw.FillHorizontally:
-                // TODO switch betwwen vertical/horizontal or both filling
-                var totalWidth = 0;
-                var totalHeight = 0;
-                var maxWidth = width;
-                var maxHeight = height;
-                while(totalHeight < maxHeight){
-                    totalWidth = 0;
-                    while(totalWidth < maxWidth){
-                        context.drawTexture(
-                            texture.bitmapAsset,
-                            texture.x,
-                            texture.y,
-                            texture.width,
-                            texture.height,
-                            x + totalWidth - frame.x - texture.frameX,
-                            y + totalHeight - frame.y - texture.frameY
-                        );
-                        totalWidth += texture.width;
-                    }
-                    totalHeight += texture.height   ;
-                }
-            case SpriteDraw.NoScale, SpriteDraw.Scale:
+        var scaleX = width / texture.width;
+        var scaleY = height / texture.height;
 
-                var scaleX = 1.0;
-                var scaleY = 1.0;
-                if (drawMode == SpriteDraw.Scale){
-                    scaleX = width / texture.width;
-                    scaleY = height / texture.height;
-                }
+        context.drawScaledTexture(
+            texture.bitmapAsset,
+            texture.x,
+            texture.y,
+            texture.width,
+            texture.height,
+            Std.int(x - (frame.x + texture.frameX) * scaleX),
+            Std.int(y - (frame.y + texture.frameY) * scaleY),
+            scaleX,
+            scaleY
+        );
+    }
 
-                context.drawScaledTexture(
+    inline static public function fill(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, width : Int, height : Int) : Void{
+        var animation = sprite.get(animationName);
+        var frame = animation.get(elapsedTime);
+        var texture = frame.texture;
+
+        var totalWidth = 0;
+        var totalHeight = 0;
+        var maxWidth = width;
+        var maxHeight = height;
+        while(totalHeight < maxHeight){
+            totalWidth = 0;
+            while(totalWidth < maxWidth){
+                context.drawTexture(
                     texture.bitmapAsset,
                     texture.x,
                     texture.y,
                     texture.width,
                     texture.height,
-                    Std.int(x - (frame.x + texture.frameX) * scaleX),
-                    Std.int(y - (frame.y + texture.frameY) * scaleY),
-                    scaleX,
-                    scaleY
+                    x + totalWidth - frame.x - texture.frameX,
+                    y + totalHeight - frame.y - texture.frameY
                 );
+                totalWidth += texture.width;
+            }
+            totalHeight += texture.height   ;
         }
     }
+
+    inline static public function fillHorizontally(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, width : Int) : Void{
+        // TODO
+    }
+
+    inline static public function fillVertically(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, height : Int) : Void{
+        // TODO
+    }
+
+
 }
