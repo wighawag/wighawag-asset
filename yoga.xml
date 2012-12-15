@@ -4,7 +4,7 @@
 	<compiler-version>2.10</compiler-version>
 	
 	<id>com.wighawag.asset</id>
-	<version>0.0.1</version>
+	<version>0.1.0-SNAPSHOT</version>
 
 	<main>Main</main>
 	
@@ -30,13 +30,13 @@
 	<config-file template="nmml.template" output="project.nmml" />
 
 	<dependencies>
-	    <repository id="com.wighawag.report.Report" version="0.0.1" />
-        <sourcezip url="https://github.com/jdonaldson/promhx/zipball/master" >
-            <sources>
-                <source path="\^[^/]+/src$\"/>
-            </sources>
-        </sourcezip>
-        <haxelib name="tink_macros" version="1.0.2"/>
-        <haxelib name="nme" version="3.4.0"/>
+		<repository id="com.wighawag.report.Report" version="0.1.0" />
+        	<sourcezip url="https://github.com/jdonaldson/promhx/zipball/master" >
+			<sources>
+				<source path="\^[^/]+/src$\"/>
+			</sources>
+		</sourcezip>
+		<haxelib name="tink_macros" version="1.0.2"/>
+		<haxelib name="nme" version="3.4.0"/>
 	</dependencies>
 </project>
