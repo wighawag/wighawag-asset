@@ -20,4 +20,15 @@ class NMEEmbededAssetManager extends NMERemoteAssetManager, implements AssetMana
         promise.resolve(new BitmapAsset(resource.id, bitmapData));
     }
 
+	override private function loadBytes(promise : Promise<Asset>, resource : Resource) : Void{
+		var byteArray = nme.Assets.getBytes(resource.path);
+		promise.resolve(new BytesAsset(resource.id,
+		#if flash
+		haxe.io.Bytes.ofData(byteArray)
+		#else
+		byteArray
+		#end
+		));
+	}
+
 }

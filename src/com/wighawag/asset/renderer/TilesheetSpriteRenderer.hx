@@ -41,7 +41,6 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext, TextureAtla
                 var subTextureId = DrawingContextUtils.squareId(subTexture.x, subTexture.y, subTexture.width, subTexture.height);
                 if (!tiles.exists(subTextureId)){
                     var currentIndex = numTiles.get(bitmapAsset.id);
-                    Report.anInfo("TilesheetSpriteRenderer", "setting " + subTextureId + " on " + bitmapAsset.id + " " + currentIndex);
                     tiles.set(subTextureId, currentIndex);
                     numTiles.set(bitmapAsset.id, currentIndex + 1);
                     tilesheet.addTileRect(new Rectangle(subTexture.x, subTexture.y, subTexture.width, subTexture.height), new Point(0,0));

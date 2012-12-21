@@ -4,6 +4,7 @@ import com.wighawag.asset.load.AssetManager;
 enum ResourceType {
     Text;
     Bitmap;
+	Bytes;
 }
 
 class Resource {

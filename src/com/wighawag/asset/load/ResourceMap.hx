@@ -18,8 +18,9 @@ class ResourceMap {
             }
             else if (resource.att.type == "text"){
                 type = ResourceType.Text;
-            }
-            else{
+            }else if (resource.att.type == "bytes"){
+	            type = ResourceType.Bytes;
+            }else{
                 type = ResourceType.Text;
             }
             var resource = new Resource(resource.att.id,pathPrefix + resource.att.path, type, Std.parseInt(resource.att.size));

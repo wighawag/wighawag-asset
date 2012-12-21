@@ -1,4 +1,7 @@
 package com.wighawag.asset.load;
+import nme.net.URLLoaderDataFormat;
+import haxe.io.BytesData;
+import haxe.io.Bytes;
 import com.wighawag.asset.load.AssetManager;
 import nme.net.URLLoader;
 import nme.display.Bitmap;
@@ -40,6 +43,7 @@ class NMERemoteAssetManager implements AssetManager{
         switch(resource.type){
             case Text: loadText(promise, resource);
             case Bitmap: loadBitmap(promise, resource);
+	        case Bytes: loadBytes(promise, resource);
         }
 
         return promise;
@@ -59,6 +63,18 @@ class NMERemoteAssetManager implements AssetManager{
         loader.load(new URLRequest(resource.path));
     }
 
+	private function loadBytes(promise : Promise<Asset>, resource : Resource) : Void{
+		var urlLoader = new URLLoader();
+		urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
+		urlLoader.addEventListener(Event.COMPLETE, function(event : Event):Void{
+			promise.resolve(new BytesAsset(resource.id, urlLoader.data));
+		});
+		urlLoader.addEventListener(IOErrorEvent.IO_ERROR, function(event :Event):Void{
+			Report.anError("AssetManager", "Error loading " + resource.path);
+		});
+		urlLoader.load(new URLRequest(resource.path));
+	}
+
     private function loadText(promise : Promise<Asset>, resource : Resource) : Void{
         var urlLoader = new URLLoader();
         urlLoader.addEventListener(Event.COMPLETE, function(event : Event):Void{
@@ -69,6 +85,8 @@ class NMERemoteAssetManager implements AssetManager{
         });
         urlLoader.load(new URLRequest(resource.path));
     }
+
+
 
     public function loadBatch(ids : Array<AssetId>) : Promise<Batch<Asset>>{
 
