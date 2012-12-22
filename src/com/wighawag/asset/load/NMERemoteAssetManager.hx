@@ -67,7 +67,7 @@ class NMERemoteAssetManager implements AssetManager{
 		var urlLoader = new URLLoader();
 		urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
 		urlLoader.addEventListener(Event.COMPLETE, function(event : Event):Void{
-			promise.resolve(new BytesAsset(resource.id, urlLoader.data));
+			promise.resolve(new BytesAsset(resource.id, Bytes.ofData(urlLoader.data)));
 		});
 		urlLoader.addEventListener(IOErrorEvent.IO_ERROR, function(event :Event):Void{
 			Report.anError("AssetManager", "Error loading " + resource.path);

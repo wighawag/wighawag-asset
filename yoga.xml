@@ -6,7 +6,6 @@
 	<id>com.wighawag.asset</id>
 	<version>0.1.1-SNAPSHOT</version>
 
-	<main>Main</main>
 	
 	<sources>
 		<source path="src" />
