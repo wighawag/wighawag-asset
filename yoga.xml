@@ -29,7 +29,7 @@
 	<config-file template="nmml.template" output="project.nmml" />
 
 	<dependencies>
-		<repository id="com.wighawag.report.Report" version="0.1.0" />
+		<repository id="com.wighawag.report.Report" version="0.1.1-SNAPSHOT" />
         	<repository id="com.wighawag.wighawag-promhx" version="0.1.0"/>
 <!--		<sourcezip url="https://github.com/jdonaldson/promhx/zipball/master" >
 			<sources>

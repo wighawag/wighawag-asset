@@ -12,7 +12,7 @@ import nme.events.IOErrorEvent;
 import com.wighawag.report.Report;
 import promhx.Promise;
 
-class NMERemoteAssetManager implements AssetManager{
+class NMEAssetManager implements AssetManager{
 
     private var resourceMap : ResourceMap;
 
@@ -50,6 +50,14 @@ class NMERemoteAssetManager implements AssetManager{
     }
 
     private function loadBitmap(promise : Promise<Asset>, resource : Resource) : Void{
+	    if(resource.path.indexOf("://") == -1){
+		    var bitmapData = nme.Assets.getBitmapData(resource.path);
+		    if(bitmapData != null){
+			    promise.resolve(new BitmapAsset(resource.id, bitmapData));
+			    return;
+		    }
+	    }
+
         var loader = new Loader();
 
         loader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(event : Event):Void{
@@ -63,7 +71,22 @@ class NMERemoteAssetManager implements AssetManager{
         loader.load(new URLRequest(resource.path));
     }
 
+
 	private function loadBytes(promise : Promise<Asset>, resource : Resource) : Void{
+		if(resource.path.indexOf("://") == -1){
+			var byteArray = nme.Assets.getBytes(resource.path);
+			if(byteArray != null){
+				promise.resolve(new BytesAsset(resource.id,
+					#if flash
+					haxe.io.Bytes.ofData(byteArray)
+					#else
+					byteArray
+					#end
+				));
+				return;
+			}
+		}
+
 		var urlLoader = new URLLoader();
 		urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
 		urlLoader.addEventListener(Event.COMPLETE, function(event : Event):Void{
@@ -76,6 +99,14 @@ class NMERemoteAssetManager implements AssetManager{
 	}
 
     private function loadText(promise : Promise<Asset>, resource : Resource) : Void{
+	    if(resource.path.indexOf("://") == -1){
+		    var text = nme.Assets.getText(resource.path);
+		    if(text!=null){
+			    promise.resolve(new TextAsset(resource.id, text));
+			    return;
+		    }
+		}
+
         var urlLoader = new URLLoader();
         urlLoader.addEventListener(Event.COMPLETE, function(event : Event):Void{
             promise.resolve(new TextAsset(resource.id, urlLoader.data));
