@@ -1,4 +1,5 @@
 package com.wighawag.asset.renderer;
+import nme.events.Event;
 import nme.display.BitmapData;
 import nme.display.Graphics;
 import com.wighawag.asset.load.Batch;
@@ -15,7 +16,16 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext, TextureAtla
 
     public function new(graphics : Graphics) {
         context = new TilesheetDrawingContext(graphics);
+
+		// TODO should be specific to graphics container ?
+	    onResize(null);
+	    nme.Lib.current.stage.addEventListener(Event.RESIZE, onResize);
     }
+
+	private function onResize(event : Event) :Void{
+		// TODO should be specific to graphics container ?
+		context.resize(nme.Lib.current.stage.stageWidth, nme.Lib.current.stage.stageHeight);
+	}
 
     public function uploadTextures(textures : Array<TextureAtlas>): Void{
         var texturesMap : Hash<Tilesheet> = new Hash();

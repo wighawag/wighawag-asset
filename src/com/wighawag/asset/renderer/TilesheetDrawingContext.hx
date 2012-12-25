@@ -18,9 +18,12 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     private var orderedTilesheets : Array<Tilesheet>;
 
 
-    // TODO use a stack based state
-    private var translationX : Int;
-    private var translationY : Int;
+	// TODO use matrix here or State
+	public var xTranslation(default, null) : Int;
+	public var yTranslation(default, null) : Int;
+
+	public var width(default,null) : Int;
+	public var height(default,null) : Int;
 
     public function new(graphics : Graphics) {
         this.graphics = graphics;
@@ -28,20 +31,26 @@ class TilesheetDrawingContext implements NMEDrawingContext{
         tileIndexMap = new Hash();
     }
 
+	// TODO improve this relation with the renderer ()
+	public function resize(width : Int, height : Int) : Void{
+		this.width = width;
+		this.height = height;
+	}
+
     public function prepare()  : Void{
         tilesheetsToDraw = new ObjectHash();
         orderedTilesheets = new Array();
-        translationX = 0;
-        translationY = 0;
+        xTranslation = 0;
+        yTranslation = 0;
     }
 
-    public function drawTexture(bitmapAsset:BitmapAsset, srcX:Int, srcY:Int, srcWidth:Int, srcHeight:Int, x:Int, y:Int):Void {
+    inline public function drawTexture(bitmapAsset:BitmapAsset, srcX:Int, srcY:Int, srcWidth:Int, srcHeight:Int, x:Int, y:Int):Void {
         drawScaledTexture(bitmapAsset,srcX, srcY, srcWidth, srcHeight, x, y, 1, 1);
     }
 
 
 
-    public function drawScaledTexture(bitmapAsset:BitmapAsset, srcX:Int, srcY:Int, srcWidth:Int, srcHeight:Int, x:Int, y:Int, scaleX:Float, scaleY:Float):Void {
+    inline public function drawScaledTexture(bitmapAsset:BitmapAsset, srcX:Int, srcY:Int, srcWidth:Int, srcHeight:Int, x:Int, y:Int, scaleX:Float, scaleY:Float):Void {
 
         var tilesheet = texturesMap.get(bitmapAsset.id);
         var tiles = tileIndexMap.get(bitmapAsset.id);
@@ -49,7 +58,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
         var tileId = DrawingContextUtils.squareId(srcX,srcY,srcWidth,srcHeight);
         if (tiles.exists(tileId)){
             index = tiles.get(tileId);
-            drawUsingTilesheet(tilesheet,index, x + translationX, y + translationY, scaleX, scaleY);
+            drawUsingTilesheet(tilesheet,index, x + xTranslation, y + yTranslation, scaleX, scaleY);
         }else{
             // TODO use drawTriangles
             Report.anError("TilesheetDrawingContext", "no index for " + bitmapAsset.id + " (" + tileId  + ")");
@@ -58,7 +67,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
 
     }
 
-    private function drawUsingTilesheet(tilesheet : Tilesheet, tileIndex : Int, x : Int, y: Int, scaleX : Float, scaleY : Float):Void{
+    inline private function drawUsingTilesheet(tilesheet : Tilesheet, tileIndex : Int, x : Int, y: Int, scaleX : Float, scaleY : Float):Void{
 
         var values : Array<Float>;
         if (tilesheetsToDraw.exists(tilesheet)){
@@ -81,15 +90,16 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     }
 
     private function drawUsingTriangles() : Void{
-
+	    // TODO
     }
 
     public function translate(xOffset : Int, yOffset : Int) : Void {
-        translationX += xOffset;
-        translationY += yOffset;
+        xTranslation += xOffset;
+        yTranslation += yOffset;
     }
 
     public function render()  : Void {
+
         graphics.clear();
         for (toDraw in orderedTilesheets){
             toDraw.drawTiles(graphics,tilesheetsToDraw.get(toDraw),true, Graphics.TILE_TRANS_2x2); // TODO support the other flags

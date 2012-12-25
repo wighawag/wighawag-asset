@@ -74,19 +74,23 @@ class Animation {
         }
     }
 
-    public function get(timeElapsed : Float) : Frame{
-        var frameIndex : Int = 0;
-        var msTimeElapsed = timeElapsed * 1000;
-        if (msTimeElapsed >= totalMsDuration){
-            if (loopStartFrame >= 0){
-                var time = (msTimeElapsed - totalMsDuration) % loopMsDuration;
-                frameIndex = Std.int(time / averageMsDuration);
-            }else{
-                return frames[frames.length - 1]; // return last frame if not loop (loopStartFrame < 0)
-            }
+    inline public function get(timeElapsed : Float) : Frame{
+	    var frameIndex : Int;
+	    if(frames.length == 1){
+	        frameIndex = 0;
         }else{
-            frameIndex = Std.int(msTimeElapsed / averageMsDuration);
-        }
-        return frames[frameIndex];
+		    var msTimeElapsed = timeElapsed * 1000;
+		    if (msTimeElapsed >= totalMsDuration){
+			    if (loopStartFrame >= 0){
+				    var time = (msTimeElapsed - totalMsDuration) % loopMsDuration;
+				    frameIndex = Std.int(time / averageMsDuration);
+			    }else{
+				    frameIndex = frames.length - 1; // return last frame if not loop (loopStartFrame < 0)
+			    }
+		    }else{
+			    frameIndex = Std.int(msTimeElapsed / averageMsDuration);
+		    }
+	    }
+	    return frames[frameIndex];
     }
 }

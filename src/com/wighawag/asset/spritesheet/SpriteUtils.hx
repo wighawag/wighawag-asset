@@ -23,8 +23,7 @@ class SpriteUtils {
 
 
     inline static public function draw(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int) : Void{
-        var animation = sprite.get(animationName);
-        var frame = animation.get(elapsedTime);
+        var frame = sprite.getFrame(animationName,elapsedTime);
         var texture = frame.texture;
         context.drawScaledTexture(
             texture.bitmapAsset,
@@ -40,8 +39,7 @@ class SpriteUtils {
     }
 
     inline static public function drawScaled(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, width : Int, height : Int) : Void{
-        var animation = sprite.get(animationName);
-        var frame = animation.get(elapsedTime);
+        var frame = sprite.getFrame(animationName, elapsedTime);
         var texture = frame.texture;
 
         var scaleX = width / texture.width;
@@ -61,8 +59,7 @@ class SpriteUtils {
     }
 
     inline static public function fill(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int, width : Int, height : Int) : Void{
-        var animation = sprite.get(animationName);
-        var frame = animation.get(elapsedTime);
+        var frame = sprite.getFrame(animationName,elapsedTime);
         var texture = frame.texture;
 
         var totalWidth = 0;
