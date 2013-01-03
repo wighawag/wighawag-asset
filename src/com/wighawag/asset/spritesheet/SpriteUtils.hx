@@ -1,8 +1,10 @@
 package com.wighawag.asset.spritesheet;
 
+import com.wighawag.asset.load.BitmapAsset;
 import com.wighawag.asset.renderer.NMEDrawingContext;
 
 class SpriteUtils {
+
     inline static public function getTextureAtlases(sprites : Array<Sprite>) : Array<TextureAtlas>{
         var textureAtlases : Array<TextureAtlas> = new Array();
         for (sprite in sprites){
@@ -20,6 +22,19 @@ class SpriteUtils {
         return textureAtlases;
     }
 
+
+
+	inline static public function getBitmapAssets(sprites : Array<Sprite>) : Array<BitmapAsset>{
+		var bitmapAssets : Array<BitmapAsset> = new Array();
+		var hash = new Hash<Bool>();
+		for (sprite in sprites){
+			if (!hash.exists(sprite.bitmapAsset.id)){
+				bitmapAssets.push(sprite.bitmapAsset);
+				hash.set(sprite.bitmapAsset.id, true);
+			}
+		}
+		return bitmapAssets;
+	}
 
 
     inline static public function draw(sprite : Sprite, context : NMEDrawingContext, animationName : String, elapsedTime : Float, x : Int, y : Int) : Void{

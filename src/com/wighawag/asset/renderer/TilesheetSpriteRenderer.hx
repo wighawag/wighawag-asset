@@ -8,7 +8,7 @@ import com.wighawag.asset.spritesheet.TextureAtlas;
 import nme.geom.Point;
 import nme.geom.Rectangle;
 import com.wighawag.asset.spritesheet.SubTexture;
-import neash.display.Tilesheet;
+import nme.display.Tilesheet;
 import com.fermmtools.utils.ObjectHash;
 class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext, TextureAtlas>{
 
