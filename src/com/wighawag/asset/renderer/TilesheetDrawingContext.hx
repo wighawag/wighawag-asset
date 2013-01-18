@@ -12,7 +12,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     private var texturesMap : Hash<Tilesheet>;
     private var tileIndexMap : Hash<Hash<Int>>;
 
-    private var graphics : Graphics;
+    private var container : nme.display.Sprite;
 
     private var tilesheetsToDraw : ObjectHash<Tilesheet, Array<Float>>;
     private var orderedTilesheets : Array<Tilesheet>;
@@ -25,8 +25,8 @@ class TilesheetDrawingContext implements NMEDrawingContext{
 	public var width(default,null) : Int;
 	public var height(default,null) : Int;
 
-    public function new(graphics : Graphics) {
-        this.graphics = graphics;
+    public function new(container : nme.display.Sprite) {
+        this.container = container;
         texturesMap = new Hash();
         tileIndexMap = new Hash();
     }
@@ -58,7 +58,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
         var tileId = DrawingContextUtils.squareId(srcX,srcY,srcWidth,srcHeight);
         if (tiles.exists(tileId)){
             index = tiles.get(tileId);
-            drawUsingTilesheet(tilesheet,index, x + xTranslation, y + yTranslation, scaleX, scaleY);
+            drawUsingTilesheet(tilesheet,index, x, y, scaleX, scaleY);
         }else{
             // TODO use drawTriangles
             Report.anError("TilesheetDrawingContext", "no index for " + bitmapAsset.id + " (" + tileId  + ")");
@@ -78,6 +78,10 @@ class TilesheetDrawingContext implements NMEDrawingContext{
             orderedTilesheets.push(tilesheet);
         }
 
+        setValues(values, x, y, tileIndex, scaleX, scaleY);
+    }
+
+    inline private function setValues(values : Array<Float>, x : Float, y : Float, tileIndex : Int, scaleX : Float, scaleY : Float) : Void{
         values.push(x);
         values.push(y);
         values.push(tileIndex);
@@ -99,11 +103,38 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     }
 
     public function render()  : Void {
-
-        graphics.clear();
+        container.x = xTranslation;
+        container.y = yTranslation;
+        container.graphics.clear();
         for (toDraw in orderedTilesheets){
-            toDraw.drawTiles(graphics,tilesheetsToDraw.get(toDraw),true, Graphics.TILE_TRANS_2x2); // TODO support the other flags
+            toDraw.drawTiles(container.graphics,tilesheetsToDraw.get(toDraw),true, Tilesheet.TILE_TRANS_2x2); // TODO support the other flags
         }
+    }
+
+    // TODO remove this
+    public function registerBatch(bitmapAsset : BitmapAsset, array : Array<Float>) : Array<Float>{
+        var transformedArray : Array<Float> = new Array();
+        var numValues = 8;
+        var tilesheet = texturesMap.get(bitmapAsset.id);
+        for (i in 0...Std.int(array.length / numValues)){
+            var tiles = tileIndexMap.get(bitmapAsset.id);
+            var index : Int;
+            var tileId = DrawingContextUtils.squareId(Std.int(array[i * numValues]), Std.int(array[i * numValues + 1]), Std.int(array[i * numValues + 2]), Std.int(array[i * numValues + 3]));
+            if (tiles.exists(tileId)){
+                index = tiles.get(tileId);
+                setValues(transformedArray, array[i * numValues + 4], array[i * numValues + 5], index, array[i * numValues + 6], array[i * numValues + 7]);
+            }else{
+                Report.anError("TilesheetDrawingContext", "no index for " + bitmapAsset.id + " (" + tileId  + ")");
+            }
+        }
+        return transformedArray;
+    }
+
+    // TODO remove this
+    public function renderBatch(bitmapAsset : BitmapAsset, array : Array<Float>) : Void{
+        var tilesheet = texturesMap.get(bitmapAsset.id);
+        orderedTilesheets.push(tilesheet);
+        tilesheetsToDraw.set(tilesheet,array);
     }
 
     // TODO save

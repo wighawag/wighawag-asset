@@ -14,16 +14,16 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext, TextureAtla
 
     private var context : TilesheetDrawingContext;
 
-    public function new(graphics : Graphics) {
-        context = new TilesheetDrawingContext(graphics);
+    public function new(container : nme.display.Sprite) {
+        context = new TilesheetDrawingContext(container);
 
-		// TODO should be specific to graphics container ?
+		// TODO should be specific to container ?
 	    onResize(null);
 	    nme.Lib.current.stage.addEventListener(Event.RESIZE, onResize);
     }
 
 	private function onResize(event : Event) :Void{
-		// TODO should be specific to graphics container ?
+		// TODO should be specific to  container ?
 		context.resize(nme.Lib.current.stage.stageWidth, nme.Lib.current.stage.stageHeight);
 	}
 
