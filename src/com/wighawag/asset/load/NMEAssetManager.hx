@@ -14,6 +14,19 @@ import promhx.Promise;
 
 class NMEAssetManager implements AssetManager{
 
+
+    // TODO support binary resourceMap
+    public static function bootstrap(url : String) : Promise<ResourceMap>{
+        var promise = new Promise<ResourceMap>(); // do not save it
+        var textPromise = new Promise<Asset>();
+        textPromise.then(function(asset:Asset):Void{
+            var textAsset : TextAsset = cast(asset);
+            promise.resolve(new ResourceMap(textAsset.text));
+        });
+        loadText(textPromise,new Resource("resourceMap", url, Text, 0));
+        return promise;
+    }
+
     private var resourceMap : ResourceMap;
 
     private var promises : Hash<Promise<Asset>>;
@@ -49,7 +62,7 @@ class NMEAssetManager implements AssetManager{
         return promise;
     }
 
-    private function loadBitmap(promise : Promise<Asset>, resource : Resource) : Void{
+    private static function loadBitmap(promise : Promise<Asset>, resource : Resource) : Void{
 	    if(resource.path.indexOf("://") == -1){
 		    var bitmapData = nme.Assets.getBitmapData(resource.path);
 		    if(bitmapData != null){
@@ -72,7 +85,7 @@ class NMEAssetManager implements AssetManager{
     }
 
 
-	private function loadBytes(promise : Promise<Asset>, resource : Resource) : Void{
+	private static function loadBytes(promise : Promise<Asset>, resource : Resource) : Void{
 		if(resource.path.indexOf("://") == -1){
 			var byteArray = nme.Assets.getBytes(resource.path);
 			if(byteArray != null){
@@ -98,7 +111,7 @@ class NMEAssetManager implements AssetManager{
 		urlLoader.load(new URLRequest(resource.path));
 	}
 
-    private function loadText(promise : Promise<Asset>, resource : Resource) : Void{
+    private static function loadText(promise : Promise<Asset>, resource : Resource) : Void{
 	    if(resource.path.indexOf("://") == -1){
 		    var text = nme.Assets.getText(resource.path);
 		    if(text!=null){
