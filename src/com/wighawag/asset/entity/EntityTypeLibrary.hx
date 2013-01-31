@@ -6,11 +6,11 @@ import com.wighawag.system.EntityType;
 
 class EntityTypeLibrary {
 
-    private var types : Hash<EntityType>;
+    private var _types : Hash<EntityType>;
 
 
     public function new(xml : String){//TODO? : }, componentFactory : EntityTypeComponentFactory) {
-        types = new Hash();
+        _types = new Hash();
 
         var x = new Fast( Xml.parse(xml).firstElement() );
         for (typeDefinition in x.nodes.type){
@@ -33,22 +33,26 @@ class EntityTypeLibrary {
 
             }
 
-            if(types.exists(typeId)){
+            if(_types.exists(typeId)){
                 Report.anError("EntityTypeLibrary", "EntityType with id " + typeId + " already exist in the library.");
             }else{
                 var type = new EntityType(typeId);
                 type.setup(components);
-                types.set(typeId, type);
+                _types.set(typeId, type);
             }
         }
     }
 
     public function get(typeId : String) : EntityType{
-        var type = types.get(typeId);
+        var type = _types.get(typeId);
         if(type == null){
             Report.anError("EntityTypeLibrary", "No EntityType with id " + typeId);
         }
         return type;
     }
 
+
+    public function getTypes() : Iterator<EntityType>{
+        return _types.iterator();
+    }
 }

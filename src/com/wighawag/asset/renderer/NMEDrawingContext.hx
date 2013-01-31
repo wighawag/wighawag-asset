@@ -8,6 +8,8 @@ interface NMEDrawingContext {
 	// TODO use matrix here or State
 	var xTranslation(default, null) : Int;
 	var yTranslation(default, null) : Int;
+    var scaleX(default, null) : Float;
+    var scaleY(default, null) : Float;
 
 	var width(default,null) : Int;
 	var height(default,null) : Int;
@@ -16,7 +18,7 @@ interface NMEDrawingContext {
     function drawScaledTexture(bitmapAsset : BitmapAsset, srcX : Int, srcY : Int, srcWidth : Int, srcHeight : Int, x : Int, y : Int, scaleX : Float, scaleY : Float) : Void;
 
     function translate(xOffset : Int, yOffset : Int) : Void;
-    //function scale(x : Float, y : Float) : Void;
+    function scale(x : Float, y : Float) : Void;
     // TODO rotate,..
 
     function save() : Void;

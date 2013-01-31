@@ -21,6 +21,8 @@ class TilesheetDrawingContext implements NMEDrawingContext{
 	// TODO use matrix here or State
 	public var xTranslation(default, null) : Int;
 	public var yTranslation(default, null) : Int;
+    public var scaleX(default, null) : Float;
+    public var scaleY(default, null) : Float;
 
 	public var width(default,null) : Int;
 	public var height(default,null) : Int;
@@ -42,6 +44,8 @@ class TilesheetDrawingContext implements NMEDrawingContext{
         orderedTilesheets = new Array();
         xTranslation = 0;
         yTranslation = 0;
+        scaleX = 1;
+        scaleY = 1;
     }
 
     inline public function drawTexture(bitmapAsset:BitmapAsset, srcX:Int, srcY:Int, srcWidth:Int, srcHeight:Int, x:Int, y:Int):Void {
@@ -83,7 +87,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
 
     inline private function setValues(values : Array<Float>, x : Float, y : Float, tileIndex : Int, scaleX : Float, scaleY : Float) : Void{
         values.push(x);
-        values.push(y);
+        values.push(y );
         values.push(tileIndex);
 
         // TODO deal with rotation
@@ -98,13 +102,20 @@ class TilesheetDrawingContext implements NMEDrawingContext{
     }
 
     public function translate(xOffset : Int, yOffset : Int) : Void {
-        xTranslation += xOffset;
-        yTranslation += yOffset;
+        xTranslation += Std.int(xOffset * scaleX);
+        yTranslation += Std.int(yOffset * scaleY);
+    }
+
+    public function scale(scaleX : Float, scaleY : Float) : Void {
+        this.scaleX *= scaleX;
+        this.scaleY *= scaleY;
     }
 
     public function render()  : Void {
         container.x = xTranslation;
         container.y = yTranslation;
+        container.scaleX = this.scaleX;
+        container.scaleY = this.scaleY;
         container.graphics.clear();
         for (toDraw in orderedTilesheets){
             toDraw.drawTiles(container.graphics,tilesheetsToDraw.get(toDraw),true, Tilesheet.TILE_TRANS_2x2); // TODO support the other flags
