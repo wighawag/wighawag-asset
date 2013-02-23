@@ -4,8 +4,7 @@
 	<compiler-version>2.10</compiler-version>
 	
 	<id>com.wighawag.asset</id>
-	<version>0.1.1</version>
-	<prepared>2013-02-23 20:57:42</prepared>
+	<version>0.1.2-SNAPSHOT</version>
 
 	<main>com.wighawag.asset.PerformanceTest</main>
 
