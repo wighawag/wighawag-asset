@@ -19,15 +19,18 @@ class TilesheetDrawingContext implements NMEDrawingContext{
 
 
 	// TODO use matrix here or State
-	public var xTranslation(default, null) : Int;
-	public var yTranslation(default, null) : Int;
+	public var xTranslation(default, null) : Float;
+	public var yTranslation(default, null) : Float;
     public var scaleX(default, null) : Float;
     public var scaleY(default, null) : Float;
 
 	public var width(default,null) : Int;
 	public var height(default,null) : Int;
 
-    public function new(container : nme.display.Sprite) {
+    private var antiAliasEnabled : Bool;
+
+    public function new(container : nme.display.Sprite, antiAliasEnabled : Bool) {
+        this.antiAliasEnabled = antiAliasEnabled;
         this.container = container;
         texturesMap = new Hash();
         tileIndexMap = new Hash();
@@ -101,9 +104,9 @@ class TilesheetDrawingContext implements NMEDrawingContext{
 	    // TODO
     }
 
-    public function translate(xOffset : Int, yOffset : Int) : Void {
-        xTranslation += Std.int(xOffset * scaleX);
-        yTranslation += Std.int(yOffset * scaleY);
+    public function translate(xOffset : Float, yOffset : Float) : Void {
+        xTranslation += xOffset * scaleX;
+        yTranslation += yOffset * scaleY;
     }
 
     public function scale(scaleX : Float, scaleY : Float) : Void {
@@ -118,7 +121,7 @@ class TilesheetDrawingContext implements NMEDrawingContext{
         container.scaleY = this.scaleY;
         container.graphics.clear();
         for (toDraw in orderedTilesheets){
-            toDraw.drawTiles(container.graphics,tilesheetsToDraw.get(toDraw),true, Tilesheet.TILE_TRANS_2x2); // TODO support the other flags
+            toDraw.drawTiles(container.graphics,tilesheetsToDraw.get(toDraw),antiAliasEnabled, Tilesheet.TILE_TRANS_2x2); // TODO support the other flags
         }
     }
 

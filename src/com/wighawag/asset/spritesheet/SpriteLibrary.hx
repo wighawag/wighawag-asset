@@ -82,8 +82,23 @@ class SpriteLibrary {
                     if (frameDef.has.y){
                         frameY = Std.parseInt(frameDef.att.y);
                     }
+
+                    var flipX : Float = 1;
+                    if (frameDef.has.flipX){
+                        if(frameDef.att.flipX == "true"){
+                            flipX = -1;
+                        }
+                    }
+                    var flipY : Float = 1;
+                    if (frameDef.has.flipY){
+                        if(frameDef.att.flipY == "true"){
+                            flipY = -1;
+                        }
+                    }
+
+
                     subTexture = textureAtlas.textures.get(frameDef.att.subTexture);
-                    frames.push(new Frame(subTexture,frameX, frameY, overrideDuration));
+                    frames.push(new Frame(subTexture,frameX, frameY, overrideDuration, flipX, flipY));
                 }
                 var loopStartFrame = 0;
                 if (animationDef.has.loopStartFrame){

@@ -46,10 +46,10 @@ class SpriteUtils {
             texture.y,
             texture.width,
             texture.height,
-            Std.int(x - (frame.x + texture.frameX)),
-            Std.int(y - (frame.y + texture.frameY)),
-            1.0,
-            1.0
+            Std.int(x - (frame.x + texture.frameX) + (frame.flipX == -1 ? texture.width : 0)),
+            Std.int(y - (frame.y + texture.frameY) + (frame.flipY == -1 ? texture.height : 0)),
+            frame.flipX,
+            frame.flipY
         );
     }
 
@@ -66,10 +66,10 @@ class SpriteUtils {
             texture.y,
             texture.width,
             texture.height,
-            Std.int(x - (frame.x + texture.frameX) * scaleX),
-            Std.int(y - (frame.y + texture.frameY) * scaleY),
-            scaleX,
-            scaleY
+            Std.int(x - (frame.x + texture.frameX) * scaleX + (frame.flipX == -1 ? texture.width * scaleX : 0)),
+            Std.int(y - (frame.y + texture.frameY) * scaleY + (frame.flipY == -1 ? texture.height * scaleY : 0)),
+            scaleX * frame.flipX,
+            scaleY * frame.flipY
         );
     }
 

@@ -14,8 +14,8 @@ class TilesheetSpriteRenderer implements Renderer<NMEDrawingContext, TextureAtla
 
     private var context : TilesheetDrawingContext;
 
-    public function new(container : nme.display.Sprite) {
-        context = new TilesheetDrawingContext(container);
+    public function new(container : nme.display.Sprite, antiAliasEnabled : Bool) {
+        context = new TilesheetDrawingContext(container, antiAliasEnabled);
 
 		// TODO should be specific to container ?
 	    onResize(null);
