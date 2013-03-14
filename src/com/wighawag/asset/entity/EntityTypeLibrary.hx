@@ -26,7 +26,11 @@ class EntityTypeLibrary {
                 var instance : Dynamic = null;
                 try{
                     instance = Type.createInstance(clazz, [componentDefinition.x]); // assume the component has an empty constructor
-                    components.push(instance);
+                    if(instance == null){
+                        Report.anError("EntityTypeLibrary", "EntityType with id " + typeId + " has a component that cannot be instanciated : " + className, "make sure this component has an constrcutor acepting one xml (Xml) argument");
+                    }else{
+                        components.push(instance);
+                    }
                 }catch(e : Dynamic){
                     Report.anError("EntityTypeLibrary", "EntityType with id " + typeId + " has a component that cannot be instanciated : " + className, "make sure this component has an constrcutor acepting one xml (Xml) argument");
                 }

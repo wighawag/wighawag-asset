@@ -92,7 +92,9 @@ class NMEAssetManager implements AssetManager{
 				promise.resolve(new BytesAsset(resource.id,
 					#if flash
 					haxe.io.Bytes.ofData(byteArray)
-					#else
+					#elseif js
+                    untyped byteArray
+                    #else
 					byteArray
 					#end
 				));
