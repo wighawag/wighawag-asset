@@ -1,0 +1,14 @@
+{
+  "name": "wighawag-asset",
+  "url" : "https://github.wighawag/wighawag-asset/",
+  "license": "Wighawag",
+  "tags": ["cross"],
+  "description": "",
+  "version": "0.0.1",
+  "releasenote": "",
+  "contributors": ["wighawag"],
+  "classPath" : "src",
+  "dependencies": 
+{"wighawag-report":"","openfl":"","wighawag-utils":"0.0.1","promhx":""},
+  "targets" : ["as3"]
+}

@@ -1,7 +1,7 @@
 package ;
-import com.wighawag.asset.spritesheet.TextureAtlas;
-import com.wighawag.asset.renderer.NMEDrawingContext;
-import com.wighawag.asset.renderer.Renderer;
+import wighawag.asset.spritesheet.TextureAtlas;
+import wighawag.asset.renderer.NMEDrawingContext;
+import wighawag.asset.renderer.Renderer;
 class DummyRenderer implements Renderer<NMEDrawingContext, TextureAtlas>{
     public function new() {
     }

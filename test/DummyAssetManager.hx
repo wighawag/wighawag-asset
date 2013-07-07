@@ -1,9 +1,9 @@
 package ;
 
 import promhx.Promise;
-import com.wighawag.asset.load.Batch;
-import com.wighawag.asset.load.Asset;
-import com.wighawag.asset.load.AssetManager;
+import wighawag.asset.load.Batch;
+import wighawag.asset.load.Asset;
+import wighawag.asset.load.AssetManager;
 
 class DummyAssetManager implements AssetManager{
 
