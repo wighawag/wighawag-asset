@@ -1,14 +1,14 @@
 {
   "name": "wighawag-asset",
   "url" : "https://github.wighawag/wighawag-asset/",
-  "license": "Wighawag",
+  "license": "GPL",
   "tags": ["cross"],
-  "description": "",
+  "description": "Asset management",
   "version": "0.0.1",
   "releasenote": "",
   "contributors": ["wighawag"],
   "classPath" : "src",
   "dependencies": 
-{"wighawag-report":"","openfl":"","wighawag-utils":"0.0.1","promhx":""},
+{"wighawag-report":"0.0.1","openfl":"1.0.4","wighawag-utils":"0.0.1","promhx":"0.2.2"},
   "targets" : ["as3"]
 }
